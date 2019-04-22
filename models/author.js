@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 
+const DATE_FORMAT = 'MMMM Do, YYYY';
+
 const AuthorSchema = new mongoose.Schema({
     first_name: {type: String, required: true, max: 100},
     family_name: {type: String, required: true, max: 100},
@@ -15,7 +17,9 @@ AuthorSchema.virtual('name').get(function () {
 
 // Virtual for author's lifespan
 AuthorSchema.virtual('lifespan').get(function () {
-    return (this.date_of_death.getFullYear() - this.date_of_birth.getFullYear()).toString();
+  const date_of_birth_formatted = this.date_of_birth ? moment(this.date_of_birth).format(DATE_FORMAT) : '';
+  const date_of_death_formatted = this.date_of_death ? moment(this.date_of_death).format(DATE_FORMAT) : '';
+    return `${date_of_birth_formatted} - ${date_of_death_formatted}`;
 });
 
 // Virtual for author's url
@@ -25,12 +29,12 @@ AuthorSchema.virtual('url').get(function () {
 
 // Virtual for formatted date_of_birth
 AuthorSchema.virtual('date_of_birth_formatted').get(function () {
-  return this.date_of_birth ? moment(this.date_of_birth).format('YYYY-MM-DD') : '';
+  return this.date_of_birth ? moment(this.date_of_birth).format(DATE_FORMAT) : '';
 });
 
 // Virtual for formatted date_of_death
 AuthorSchema.virtual('date_of_death_formatted').get(function () {
-  return this.date_of_death ? moment(this.date_of_death).format('YYYY-MM-DD') : '';
+  return this.date_of_death ? moment(this.date_of_death).format(DATE_FORMAT) : '';
 });
 
 module.exports = mongoose.model('Author', AuthorSchema);
