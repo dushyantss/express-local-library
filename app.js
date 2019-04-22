@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 
+require('dotenv').config();
+
 var mongodb = `mongodb+srv://${process.env.MONGO_USER_NAME}:${process.env.MONGO_PASSWORD}@demo-sshur.mongodb.net/test?retryWrites=true`;
 
 mongoose.connect(mongodb, {useNewUrlParser: true}).catch(err => console.error(err));
