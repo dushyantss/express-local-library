@@ -19,6 +19,7 @@ block content
   if bookinstance.status!='Available'
     p #[strong Due back:] #{bookinstance.due_back_formatted}
 
-  hr
-  p
-    a(href=bookinstance.url + '/delete') Delete book instance
+  p Do you really want to delete this BookInstance?
+
+    form(method='POST' action='')
+      button.btn.btn-primary(type='submit') Delete
