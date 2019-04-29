@@ -140,7 +140,7 @@ exports.author_delete_post = function (req, res, next) {
         if (err) { return next(err); }
         // Success - go to author list
         res.redirect('/catalog/authors')
-      })
+      });
     }
   });
 };
