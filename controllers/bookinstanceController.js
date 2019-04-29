@@ -152,7 +152,7 @@ exports.bookinstance_update_get = function (req, res, next) {
         if (err) {
             return next(err);
         }
-        let {bookinstance, book_list} = results;
+        const {bookinstance, book_list} = results;
         if (bookinstance == null) { // No results.
             var err = new Error('Book Instance not found');
             err.status = 404;
@@ -161,21 +161,6 @@ exports.bookinstance_update_get = function (req, res, next) {
             var err = new Error('Books not found');
             err.status = 404;
             return next(err);
-        }
-        // Format the date for PUG
-        if (bookinstance.due_back) {
-            try {
-                const date = new Date(Date.parse(bookinstance.due_back));
-                const year = date.getFullYear();
-                let month = date.getMonth() + 1;
-                if (month < 10) month = `0${month}`;
-                let day = date.getDate();
-                if (day < 10) day = `0${day}`;
-                bookinstance = {...bookinstance.toObject(), due_back: `${year}-${month}-${day}`};
-            } catch (err) {
-                err.status = 500;
-                return next(err);
-            }
         }
         // Success.
         res.render('bookinstance_form', {
